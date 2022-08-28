@@ -1,0 +1,50 @@
+<%- include("../partials/header.ejs", {title: title}); %>
+<div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
+
+<div class="content">
+    <h1>Lager</h1>
+
+    <p>Lager Lista</p>
+    <% console.log(produktkod); %>
+    <% console.log(res2); %>
+    <table>
+        <tr>
+            <th>Lagerhylla</th>
+            <th>Vägbeskrivning</th>
+            <th>Antal nya</th>
+        </tr>
+        <% for (const row of res) { %>
+        <tr>
+            <td><%= row.hylla %></td>
+            <td><%= row.vägbeskrivning %></td>
+            <td>
+                <form class="label-left" method="post" action="/eshop/stock">
+                    <input class="hidden" type="number" id="produktkod" name="produktkod" value="<%= produktkod %>">
+                    <input class="hidden" type="number" id="hylla" name="hylla" value="<%= row.hylla %>">
+                    <input type="number" id="quantity" name="quantity" min="0"
+                    value=
+                    "<% for (rowShelf of res2){ if (rowShelf.lagerhylla == row.hylla) { %><%=rowShelf.antal%><% }; %><% }; %>"
+                    >
+                    <input class="link" type="submit" name="doit" value="Uppdatera">
+                </form>
+            </td>
+            <td>
+                <% for (rowShelf of res2)
+                    { if (rowShelf.lagerhylla == row.hylla)
+                        { %>
+                            <form class="label-left" method="post" action="/eshop/stock/delete">
+                                <input class="hidden" type="number" id="produktkod" name="produktkod" value="<%= produktkod %>">
+                                <input class="hidden" type="number" id="hylla" name="hylla" value="<%= row.hylla %>">
+                                <input class="link" type="submit" name="doit" value="Ta bort koppling">
+                            </form>
+                        <% }; %>
+                <% }; %>
+            </td>
+        </tr>
+        <% }; %>
+    </table>
+</div>
+
+<%- include("../partials/footer.ejs"); %>

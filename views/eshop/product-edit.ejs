@@ -1,0 +1,47 @@
+<%- include("../partials/header.ejs", {title: title}); %>
+<div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
+<div class="content">
+    <h1>Product Edit</h1>
+    <% res = res[0] %>
+    <form class="label-left" method="post" action="/eshop/edit">
+        <fieldset>
+            <legend>Updatera produkt</legend>
+
+            <label for="produktkod">Produktkod</label>
+            <input id="produktkod" type="text" name="produktkod" readonly value="<%= res.produktkod %>">
+
+            <label for="produktnamn">Produktnamn</label>
+            <input id="produktnamn" type="text" name="produktnamn" value="<%= res.produktnamn %>">
+
+            <label for="produktbeskrivning">Produktbeskrivning</label>
+            <input id="produktbeskrivning" type="text" name="produktbeskrivning" value="<%= res.produktbeskrivning %>">
+
+            <label for="produktpris">Produktpris</label>
+            <input id="produktpris" type="number" name="produktpris" value="<%= res.produktpris %>">
+
+
+            <section class="create-category">
+            <% for (const row of res2) { %>
+                <p>
+                    <label for="cat<%=row.id%>"> <%=row.grund%> <%=row.typ%> </label>
+                    <input type="checkbox" name="cat<%=row.id%>" value="<%=row.id%>"
+                    <% for (const rowCat of res3)
+                    {
+                        if (rowCat.grund == row.grund && rowCat.typ == row.typ) { %>
+                        <%="checked"%>
+                        <% }; %>
+                    <% }; %>
+                    >
+                </p>
+            <% }; %>
+            </section>
+
+            <input class="link" type="submit" name="doit" value="Done">
+        </fieldset>
+    </form>
+    <a href="/eshop/crud" class="link">Go back</a>
+</div>
+
+<%- include("../partials/footer.ejs"); %>
